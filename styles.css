@@ -50,6 +50,9 @@ header {
 }
 
 .text-preview {
+  position: relative;
+  height: 0;
+  padding-bottom: 90%;
   width: 90%;
   min-width: 300px;
   max-width: 600px;
@@ -57,9 +60,20 @@ header {
   aspect-ratio: 1/1;
   margin: 20px 0;
   border-radius: 10px;
-  overflow: auto;
+  overflow: hidden;
   box-shadow: 0 5px 20px rgba(210, 210, 210, 0.2);
   background: white;
+}
+
+.preview-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text-canvas {
@@ -76,12 +90,15 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   filter: blur(1.2px);
   text-align: justify;
+  text-align-last: justify;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
   line-height: 1.2;
   hyphens: auto;
   padding: 20px;
+  overflow: visible;
 }
 
 .input-area {

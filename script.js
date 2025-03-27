@@ -73,46 +73,48 @@ function updatePreview() {
 }
 
 async function saveAsImage() {
-  if (!textInput.value.trim()) return alert("Please enter some text first");
-
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  const scale = 2;
-
-  // Get styles from preview
-  const fontSize = parseInt(getComputedStyle(textOutput).fontSize);
-  const containerWidth = textPreview.clientWidth - 40;
-  const text = textInput.value.trim().replace(/\n/g, " ");
-  const lines = calculateLines(text, fontSize, containerWidth);
-
-  // Calculate canvas size
-  const lineHeight = fontSize * 1.2;
-  const canvasWidth = Math.min(600, textPreview.clientWidth);
-  const canvasHeight = Math.max(300, lines.length * lineHeight + 40);
-
-  canvas.width = canvasWidth * scale;
-  canvas.height = canvasHeight * scale;
-  ctx.scale(scale, scale);
-
-  // Draw background
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-  // Draw text
-  ctx.font = `${fontSize}px Arial`;
-  ctx.fillStyle = selectedColor;
-  ctx.filter = "blur(1.2px)";
-
-  lines.forEach((line, index) => {
-    const yPosition = lineHeight * index + 20 + fontSize;
-    ctx.fillText(line, 20, yPosition);
-  });
-
-  // Download
-  const link = document.createElement("a");
-  link.download = "brat-text.png";
-  link.href = canvas.toDataURL();
-  link.click();
-}
+    if (!textInput.value.trim()) return alert("Please enter some text first");
+  
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const scale = 2;
+  
+    // Ambil ukuran persis dari preview
+    const previewRect = textPreview.getBoundingClientRect();
+    const size = Math.min(600, Math.max(300, previewRect.width));
+  
+    canvas.width = size * scale;
+    canvas.height = size * scale;
+    ctx.scale(scale, scale);
+  
+    // 1. FILL BACKGROUND PUTIH
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, size, size); // <-- Ini yang diperbaiki
+  
+    // Clone style dari preview
+    const fontSize = parseInt(getComputedStyle(textOutput).fontSize);
+    const maxWidth = size - 40;
+    const text = textInput.value.trim().replace(/\n/g, " ");
+    const lines = calculateLines(text, fontSize, maxWidth);
+  
+    // Style teks
+    ctx.font = `${fontSize}px Arial`;
+    ctx.fillStyle = selectedColor;
+    ctx.filter = "blur(1.2px)";
+  
+    // Gambar teks
+    const lineHeight = fontSize * 1.2;
+    const startY = (size - (lines.length * lineHeight)) / 2 + fontSize;
+  
+    lines.forEach((line, index) => {
+      ctx.fillText(line, 20, startY + (index * lineHeight));
+    });
+  
+    // Download
+    const link = document.createElement("a");
+    link.download = "brat-text.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  }
 
 document.addEventListener("DOMContentLoaded", init);
