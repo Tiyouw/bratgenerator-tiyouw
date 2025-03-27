@@ -5,3 +5,4 @@ Website ini hanya membantu mengenerate "brat text" yang dimana mengubah teks inp
 
 [(misc\brat-text.png)](https://github.com/Tiyouw/bratgenerator-tiyouw/blob/main/misc/brat-text.png?raw=true)
 [(misc\Screenshot 2025-03-27 203409.png)](https://github.com/Tiyouw/bratgenerator-tiyouw/blob/main/misc/Screenshot%202025-03-27%20203409.png?raw=true)
+https://raw.githubusercontent.com/Tiyouw/bratgenerator-tiyouw/refs/heads/main/misc/Screenshot%202025-03-27%20203409.png
