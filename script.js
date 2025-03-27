@@ -56,7 +56,6 @@ function updatePreview() {
   let fontSize = 100;
   const tempCtx = document.createElement("canvas").getContext("2d");
 
-  // Calculate dynamic font size
   while (fontSize > 24) {
     tempCtx.font = `${fontSize}px Arial`;
     const textWidth = tempCtx.measureText(text).width;
@@ -64,10 +63,8 @@ function updatePreview() {
     fontSize -= 2;
   }
 
-  // Generate lines
   const lines = calculateLines(text, fontSize, containerWidth);
 
-  // Update preview
   textOutput.style.fontSize = `${fontSize}px`;
   textOutput.innerHTML = lines.map((line) => `<div>${line}</div>`).join("");
 }
@@ -79,7 +76,6 @@ async function saveAsImage() {
     const ctx = canvas.getContext("2d");
     const scale = 2;
   
-    // Ambil ukuran persis dari preview
     const previewRect = textPreview.getBoundingClientRect();
     const size = Math.min(600, Math.max(300, previewRect.width));
   
@@ -87,22 +83,18 @@ async function saveAsImage() {
     canvas.height = size * scale;
     ctx.scale(scale, scale);
   
-    // 1. FILL BACKGROUND PUTIH
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(0, 0, size, size); // <-- Ini yang diperbaiki
+    ctx.fillRect(0, 0, size, size);
   
-    // Clone style dari preview
     const fontSize = parseInt(getComputedStyle(textOutput).fontSize);
     const maxWidth = size - 40;
     const text = textInput.value.trim().replace(/\n/g, " ");
     const lines = calculateLines(text, fontSize, maxWidth);
   
-    // Style teks
     ctx.font = `${fontSize}px Arial`;
     ctx.fillStyle = selectedColor;
     ctx.filter = "blur(1.2px)";
   
-    // Gambar teks
     const lineHeight = fontSize * 1.2;
     const startY = (size - (lines.length * lineHeight)) / 2 + fontSize;
   
@@ -110,7 +102,6 @@ async function saveAsImage() {
       ctx.fillText(line, 20, startY + (index * lineHeight));
     });
   
-    // Download
     const link = document.createElement("a");
     link.download = "brat-text.png";
     link.href = canvas.toDataURL();
